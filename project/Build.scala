@@ -12,7 +12,7 @@ object SlickBuild extends Build {
 
   val slickVersion = "2.1.0-SNAPSHOT"
   val binaryCompatSlickVersion = "2.1.0" // Slick base version for binary compatibility checks
-  val scalaVersions = Seq("2.10.4", "2.11.0-RC4")
+  val scalaVersions = Seq("2.11.0", "2.10.4")
 
   /** Dependencies for reuse in different parts of the build */
   object Dependencies {
@@ -51,8 +51,8 @@ object SlickBuild extends Build {
   )
 
   def localScalaSettings(path: String): Seq[Setting[_]] = Seq(
-    scalaVersion := "2.10.0-unknown",
-    scalaBinaryVersion := "2.10.0-unknown",
+    scalaVersion := "2.11.0-unknown",
+    scalaBinaryVersion := "2.11.0-unknown",
     crossVersion := CrossVersion.Disabled,
     scalaHome := Some(file(path)),
     autoScalaLibrary := false,
@@ -86,7 +86,7 @@ object SlickBuild extends Build {
     organizationName := "Typesafe",
     organization := "com.typesafe.slick",
     resolvers += Resolver.sonatypeRepo("snapshots"),
-    scalacOptions ++= List("-deprecation", "-feature"),
+    scalacOptions ++= List("-deprecation", "-feature", "-Ydelambdafy:method", "-Ybackend:GenBCode"),
     scalacOptions in (Compile, doc) <++= (version,sourceDirectory in Compile,name).map((v,src,n) => Seq(
       "-doc-title", n,
       "-doc-version", v,
